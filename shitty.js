@@ -100,4 +100,76 @@ function refreshTable(){
     changeValue("d4", memory[3][3])
 }
 
+// REQUIREMENT 1
+/**
+ * Given a cell's location and shift direction, this function provides a list of cells in the cell's way.
+ * @param {Integer} cellRow    Zero-indexed cell row number.
+ * @param {Integer} cellColumn Zero-indexed cell column number.
+ * @param {String} direction   up, down, left, right.
+ * @return {Array}             List of cells in the way.
+ */
+function generateArray(cellRow, cellColumn, direction){
+    let arr = [];
+    if (direction == "up"){
+        for (let i=parseInt(cellRow);i>-1;i--){
+            arr.push(memory[i][parseInt(cellColumn)]);
+        }
+    } else if (direction == "down"){
+        for (let i=parseInt(cellRow);i<4;i++){
+            arr.push(memory[i][parseInt(cellColumn)]);
+        }
+    } else if (direction == "left"){
+        for (let i=parseInt(cellColumn);i>-1;i--){
+            arr.push(memory[parseInt(cellRow)][i]);
+        }
+    } else if (direction == "right"){
+        for (let i=parseInt(cellColumn);i<4;i++){
+            arr.push(memory[parseInt(cellRow)][i]);
+        }
+    } else {
+        console.log("Valid directions: up, down, left, right");
+    }
+    return arr;
+}
+
+// REQUIREMENT 2
+/**
+ * Provided origin is not null and destination is null, this function moves origin value to destination cell.
+ * @param {Integer} originRow         Zero-indexed origin cell row.
+ * @param {Integer} originColumn      Zero-indexed origin cell column.
+ * @param {Integer} destinationRow    Zero-indexed destination cell row.
+ * @param {Integer} destinationColumn Zero-indexed destination cell column.
+ * @return {NaN}
+ */
+function shift(originRow, originColumn, destinationRow, destinationColumn) {
+    let origin = memory[parseInt(originRow)][parseInt(originColumn)];
+    let destination = memory[parseInt(destinationRow)][parseInt(destinationColumn)];
+    if (!origin || destination){
+        console.log("Origin is null / destination is not null");
+    } else {
+        memory[parseInt(originRow)][parseInt(originColumn)] = null;
+        memory[parseInt(destinationRow)][parseInt(destinationColumn)] = origin;
+    }
+}
+
+// REQUIREMENT 3
+/**
+ * If two cells are the same value, this function adds them together and sets the shifter cell equal to null.
+ * @param {Integer} shifterRow    Zero-indexed shifter cell row.
+ * @param {Integer} shifterColumn Zero-indexed shifter cell column.
+ * @param {Integer} targetRow     Zero-indexed target cell row.
+ * @param {Integer} targetColumn  Zero-indexed target cell column.
+ * @return {NaN}
+ */
+function collide(shifterRow, shifterColumn, targetRow, targetColumn){
+    let shifter = memory[parseInt(shifterRow)][parseInt(shifterColumn)];
+    let target = memory[parseInt(targetRow)][parseInt(targetColumn)];
+    if (shifter != target){
+        console.log("shifter and target values are not the same");
+    } else {
+        memory[parseInt(shifterRow)][parseInt(shifterColumn)] = null;
+        memory[parseInt(targetRow)][parseInt(targetColumn)] = shifter + target;
+    }
+}
+
 refreshTable()
